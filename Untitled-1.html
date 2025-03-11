@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Câmeras</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .container {
+            width: 50%;
+            margin: auto;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid white;
+            padding: 10px;
+        }
+        input, select {
+            width: 100%;
+            padding: 5px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calculadora de Câmeras</h1>
+    <div class="container">
+        <table>
+            <tr>
+                <th>Descrição</th>
+                <th>Quantidade</th>
+            </tr>
+            <tr>
+                <td>Área (m²)</td>
+                <td><input type="number" id="area" value="100"></td>
+            </tr>
+            <tr>
+                <td>Tipo de Câmera</td>
+                <td>
+                    <select id="tipoCamera">
+                        <option value="Bullet">Bullet</option>
+                        <option value="Dome">Dome</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Ângulo de Visão (°)</td>
+                <td><input type="number" id="angulo" value="6"></td>
+            </tr>
+            <tr>
+                <td>Alcance em metros</td>
+                <td><input type="number" id="alcance" value="10"></td>
+            </tr>
+            <tr>
+                <td>Número de compartimentos ou obstruções</td>
+                <td><input type="number" id="obstrucoes" value="0"></td>
+            </tr>
+        </table>
+        <button onclick="calcularCameras()">Calcular</button>
+        <p id="resultado"></p>
+    </div>
+
+    <script>
+        function calcularCameras() {
+            let area = parseFloat(document.getElementById('area').value);
+            let angulo = parseFloat(document.getElementById('angulo').value);
+            let alcance = parseFloat(document.getElementById('alcance').value);
+            let obstrucoes = parseInt(document.getElementById('obstrucoes').value);
+            
+            if (area > 0 && angulo > 0 && alcance > 0) {
+                let coberturaPorCamera = 2 * alcance * Math.tan((angulo / 2) * (Math.PI / 180));
+                let quantidadeBase = Math.ceil(area / coberturaPorCamera);
+                let quantidadeFinal = quantidadeBase + obstrucoes;
+                
+                document.getElementById('resultado').innerText = `Quantidade necessária: ${quantidadeFinal} câmeras`;
+            } else {
+                document.getElementById('resultado').innerText = 'Por favor, insira valores válidos.';
+            }
+        }
+    </script>
+</body>
+</html>
